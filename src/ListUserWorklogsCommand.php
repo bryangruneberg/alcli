@@ -32,6 +32,14 @@ class ListUserWorklogsCommand extends AlcliCommandBase
         $this->addOption('to','',
           InputOption::VALUE_OPTIONAL,
           'Logs going to');
+
+        $this->addOption('month','',
+          InputOption::VALUE_NONE,
+          'Gets the while month worth of data');
+
+        $this->addOption('week','',
+          InputOption::VALUE_NONE,
+          'Gets the while month week of data');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -39,17 +47,36 @@ class ListUserWorklogsCommand extends AlcliCommandBase
         parent::setOutput($output);
 
         $user = $input->getOption('user');
+        $from = $input->getOption('from');
+        $to = $input->getOption('to');
+
+	if($input->getOption('month')) {
+		$from = date('Y-m-01');
+		$to = date('Y-m-t');
+	}
+
+	if($input->getOption('week')) {
+		$from = date('Y-m-d', strtotime("previous monday"));
+		$to = date('Y-m-d', strtotime("sunday"));
+	}
+
+	if(!$from) {
+		$from = date('Y-m-d', strtotime("previous monday"));
+	}
+
+	if(!$to) {
+		$to = date('Y-m-d', strtotime("sunday"));
+	}
 
         try {
           self::prepareConfig($input->getOption('config'), FALSE);
-
         } catch(Exception $ex) {
           $output->writeln('<error>Error processing the application config: ' . $ex->getMessage() . '</error>');
           return AlcliCommandBase::ALCLI_CONFIG_FILE_ERROR;
         }
 
 	$JIRA = new Jira($this->config['endpoint'], $this->config['username'], $this->config['password']);
-        $workLogs = $JIRA->getTempoWorklogs($user, $input->getOption('from'), $input->getOption('to'));  
+        $workLogs = $JIRA->getTempoWorklogs($user, $from, $to);  
 
 	$tableRows = [];
 	$totalSecWorked = 0;
@@ -64,13 +91,17 @@ class ListUserWorklogsCommand extends AlcliCommandBase
 	  $comment = str_replace("\n","", $comment);
 	  $comment = substr($comment, 0, 100);
 
-	  $tableRows[] = array($workLog['dateStarted'], $workLog['issue']['key'], $worked, $billed, $comment);
+	  $dt = new \DateTime($workLog['dateStarted']);
+
+	  $tableRows[] = array($dt->format('Y-m-d H:i'), $workLog['issue']['key'], $worked, $billed, $comment);
 	}
         
         if($totalSecWorked || $totalSecBilled) {
 	  $tableRows[] = array("", "" , Utils::secToHM($totalSecWorked), Utils::secToHM($totalSecBilled), "");
         }
 
+	$output->writeln('From: ' . $from);
+	$output->writeln('To: ' . $to);
 	$this->outputTable(array('Date', 'Key', 'Worked', 'Billed', 'Comment'), $tableRows);
     }
 

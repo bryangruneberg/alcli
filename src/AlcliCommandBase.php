@@ -78,8 +78,20 @@ abstract class AlcliCommandBase extends Command
 		$teamConfigFile = $configFileInfo['dirname'] . '/' . $this->config['team'] . '.yml';
 		if(file_exists($teamConfigFile)) {
 		  $this->team_config = Yaml::parse(file_get_contents($teamConfigFile));
+		  if(!isset($this->config['queries'])) { 
+		    $this->config['queries'] = [];		  
+ 	 	  }
+
 		  if(isset($this->team_config['queries'])) {
 		    $this->config['queries'] = array_merge($this->config['queries'], $this->team_config['queries']);
+		  }
+
+		  if(!isset($this->config['issues'])) { 
+		    $this->config['issues'] = [];		  
+ 	 	  }
+
+		  if(isset($this->team_config['issues'])) {
+		    $this->config['issues'] = array_merge($this->config['issues'], $this->team_config['issues']);
 		  }
 		}
 	}

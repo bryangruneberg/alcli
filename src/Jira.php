@@ -57,4 +57,16 @@ class Jira
       $api = $this->getApi();
       return $api->api(Api::REQUEST_GET, '/rest/tempo-timesheets/3/worklogs', $params, true, false, false);
     }
+
+    public function addWorklog($issue, $timeSpent, $date, $comment)
+    {
+      $params = [];
+      if($issue) { $params['issueId'] = $issue; } 
+      if($date) { $params['started'] = $date; } 
+      if($timeSpent) { $params['timeSpent'] = $timeSpent; } 
+      if($comment) { $params['comment'] = $comment; } 
+
+      $api = $this->getApi();
+      return $api->api(Api::REQUEST_POST, '/rest/api/2/issue/'.$issue.'/worklog', $params, true, false, true);
+    }
 }
