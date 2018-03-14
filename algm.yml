@@ -1,0 +1,71 @@
+issues:
+  standup: ALGM-114
+  stand-up: ALGM-114
+  meeting: ALGM-5
+  meet: ALGM-5
+  plan: ALGM-5
+  admin: ALGM-3
+  coach: ALGM-2
+  mentor: ALGM-2
+  education: ALGM-4
+  devops: ALGM-6
+  context-switch: ALGM-239
+  switching: ALGM-239
+  interruption: ALGM-239
+  billing:  ALGM-236
+  timelogging:  ALGM-236
+  grooming: ALGM-235
+  sales: ALGM-152
+  am: ALGM-151
+  workshop: ALGM-132
+  retro: ALGM-116
+  estimate: ALGM-115
+  estimation: ALGM-115
+  marketing: ALGM-111
+queries:
+  quicklist:
+    labels in (algm-quicklist)
+  am:
+    labels in (algm-am) AND resolution is EMPTY
+  hot:
+    labels in (algm-HOT) AND resolution is EMPTY
+  mgmt:
+    labels in (algm-mgmt) AND resolution is EMPTY
+  contact:
+    labels in (algm-am-contact) AND resolution is EMPTY
+  teamsolutions:
+    labels = algm-team-solutions
+  onboarding:
+    project = ALGMT AND summary ~ " Onboarding" AND resolution is EMPTY
+  watched:
+    watcher in (currentUser()) 
+  team:
+    assignee in (bkaye, bgruneberg, frangarcia, italbot, iracine, jlewis, lthesen, mkambarami, Mustapha, swest, tamos, adejager) AND resolution = Unresolved ORDER BY updated DESC
+  blaize:
+    assignee = bkaye AND resolution = Unresolved ORDER BY updated DESC
+  bryan:
+    (assignee = bgruneberg OR labels in (algm-HOT, algm-am, algm-busdev, algm-finding-the-flow, algm-am-contact)) AND resolution = Unresolved ORDER BY Rank ASC
+  bryan-todo:
+    (assignee = bgruneberg OR labels in (algm-HOT, algm-am, algm-busdev, algm-finding-the-flow, algm-am-contact)) AND resolution = Unresolved AND status in ("To Do","ToDo") ORDER BY Rank ASC
+  bryan-wip:
+    (assignee = bgruneberg OR labels in (algm-HOT, algm-am, algm-busdev, algm-finding-the-flow, algm-am-contact)) AND resolution = Unresolved AND status not in ("To Do","ToDo") ORDER BY Rank ASC
+  fran:
+    assignee = frangarcia AND resolution = Unresolved ORDER BY updated DESC
+  inky:
+    assignee = italbot AND resolution = Unresolved ORDER BY updated DESC
+  isa:
+    assignee = iracine AND resolution = Unresolved ORDER BY updated DESC
+  isabel:
+    assignee = iracine AND resolution = Unresolved ORDER BY updated DESC
+  jason:
+    assignee = jlewis AND resolution = Unresolved ORDER BY updated DESC
+  maita:
+    assignee = mkambarami AND resolution = Unresolved ORDER BY updated DESC
+  mustapha:
+    assignee = Mustapha AND resolution = Unresolved ORDER BY updated DESC
+  mostfa:
+    assignee = Mustapha AND resolution = Unresolved ORDER BY updated DESC
+  anli:
+    assignee = adejager AND resolution = Unresolved ORDER BY updated DESC
+  tish:
+    assignee = tamos AND resolution = Unresolved ORDER BY updated DESC

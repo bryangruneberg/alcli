@@ -1,0 +1,28 @@
+{
+  "name": "amazeelabs/alcli",
+  "description": "The AmazeeLabs CLI package",
+  "keywords": ["console","devops"],
+  "homepage": "https://amazeeabs.com",
+  "license": "MIT",
+  "authors": [
+    { 
+      "name": "Bryan Gruneberg", 
+      "email": "bryan@amazeelabs.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=5.5.9",
+    "symfony/console": "2.8.*|3.0.*|~3.2",
+    "symfony/yaml": "^3.2",
+    "chobie/jira-api-restclient": "^2.0@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "AmazeeLabs\\alcli\\": "src"
+    }
+  },
+  "bin": [
+    "bin/alcli"
+  ]
+}
