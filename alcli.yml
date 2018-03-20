@@ -1,7 +1,3 @@
-endpoint: https://jira.amazeelabs.com/
-username: someone
-password: sosecretwow
-team: algm
 queries:
   mine: 
     assignee in (currentUser())
