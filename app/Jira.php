@@ -276,17 +276,20 @@ class Jira
 
         if(file_exists(getcwd() . DIRECTORY_SEPARATOR . $fileName . self::ALCLI_YML_EXT)) {
             $config = self::array_merge_recursive_distinct($config, Yaml::parse(file_get_contents(getcwd() . DIRECTORY_SEPARATOR . $fileName . self::ALCLI_YML_EXT)));
+            $config['ymlfiles'][] = getcwd() . DIRECTORY_SEPARATOR . $fileName . self::ALCLI_YML_EXT;
             $found = TRUE;
         }
 
         if(file_exists(self::getHomeDirectory() . DIRECTORY_SEPARATOR . $fileName . self::ALCLI_YML_EXT)) {
             $config = self::array_merge_recursive_distinct($config, Yaml::parse(file_get_contents( self::getHomeDirectory() . DIRECTORY_SEPARATOR . $fileName . self::ALCLI_YML_EXT)));
+            $config['ymlfiles'][] = self::getHomeDirectory() . DIRECTORY_SEPARATOR . $fileName . self::ALCLI_YML_EXT;
             $found = TRUE;
         }
 
 
         if(file_exists(base_path() . DIRECTORY_SEPARATOR . $fileName . self::ALCLI_YML_EXT)) {
             $config = self::array_merge_recursive_distinct($config, Yaml::parse(file_get_contents(base_path() . DIRECTORY_SEPARATOR . $fileName . self::ALCLI_YML_EXT)));
+            $config['ymlfiles'][] = base_path() . DIRECTORY_SEPARATOR . $fileName . self::ALCLI_YML_EXT;
             $found = TRUE;
         }
 
@@ -294,7 +297,6 @@ class Jira
             return self::resolveConfigArray('alcli');
         }
 
-        print_r($config); die($fileName);
         return $config;
     }
 
