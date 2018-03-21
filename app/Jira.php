@@ -33,6 +33,29 @@ class Jira
         );
     }
 
+    public function getTransitionStates($issueKey) 
+    {
+        // Get available transitions.
+        $api = $this->getApi();
+        $tmp_transitions = $api->getTransitions($issueKey, array());
+        $tmp_transitions_result = $tmp_transitions->getResult();
+        $transitions = $tmp_transitions_result['transitions'];
+        return $transitions;
+    }
+
+    public function transitionIssue($issueKey, $targetState)
+    {
+        $api = $this->getApi();
+        $result = $api->transition(
+            $issueKey,
+            array(
+                'transition' => array('id' => $targetState),
+            )
+        );
+
+        return($result);
+    }
+
     public function getIssueWorklogs($issue) 
     {
         $api = $this->getApi();
@@ -122,7 +145,7 @@ class Jira
 
         if(isset($rawWorkLogs['errorMessages'])) 
         {
-           return [];
+            return [];
         }
 
         $workLogs = [];
