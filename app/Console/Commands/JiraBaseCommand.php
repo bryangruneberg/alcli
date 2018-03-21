@@ -6,14 +6,14 @@ use Illuminate\Console\Command;
 
 class JiraBaseCommand extends Command 
 {
-    public function getIssueQuery($queryName, $groupName = 'alcli')
+    public function getIssueQuery($queryName)
     {
-        return app(Jira::class)->getIssueQuery($queryName, $groupName);
+        return app(Jira::class)->getIssueQuery($queryName);
     }
 
-    public function getIssueKey($queryKey, $groupName = 'alcli')
+    public function getIssueKey($queryKey)
     {
-        $key = app(Jira::class)->getIssueKey($queryKey, $groupName);
+        $key = app(Jira::class)->getIssueKey($queryKey);
         if($key) 
         {
             return $key;
@@ -23,9 +23,9 @@ class JiraBaseCommand extends Command
     }
 
 
-    public function getUsername($userName, $groupName = 'alcli')
+    public function getUsername($userName)
     {
-        $un = app(Jira::class)->getUsername($userName, $groupName);
+        $un = app(Jira::class)->getUsername($userName);
         if($un) 
         {   
             return $un;

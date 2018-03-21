@@ -186,9 +186,9 @@ class Jira
         return $api->api(Api::REQUEST_POST, '/rest/api/2/issue/'.$issue.'/worklog', $params);
     }
 
-    public function getIssueQuery($queryName, $groupName = 'alcli')
+    public function getIssueQuery($queryName)
     {
-        $configArray = self::resolveConfigArray($groupName);
+        $configArray = self::resolveConfigArray();
         if(isset($configArray['queries']) && isset($configArray['queries'][$queryName])) 
         {
             return $configArray['queries'][$queryName];
@@ -197,9 +197,9 @@ class Jira
         return NULL;
     }
 
-    public function getUsername($userName, $groupName = 'alcli')
+    public function getUsername($userName)
     {
-        $configArray = self::resolveConfigArray($groupName);
+        $configArray = self::resolveConfigArray();
         if(isset($configArray['users']) && isset($configArray['users'][$userName])) 
         {
             return $configArray['users'][$userName];
@@ -208,9 +208,9 @@ class Jira
         return NULL;
     }
 
-    public function getIssueKey($queryKey, $groupName = 'alcli')
+    public function getIssueKey($queryKey)
     {
-        $configArray = self::resolveConfigArray($groupName);
+        $configArray = self::resolveConfigArray();
         if(isset($configArray['issues']) && isset($configArray['issues'][$queryKey])) 
         {
             return $configArray['issues'][$queryKey];
@@ -264,24 +264,38 @@ class Jira
         return $api->api(Api::REQUEST_POST, '/rest/api/2/issue/', $params);
     }
 
-    public static function resolveConfigArray($groupName = 'alcli') 
+    public static function resolveConfigArray($fileName = NULL) 
     {
-        $queries = [];
 
-        if(file_exists(getcwd() . DIRECTORY_SEPARATOR . $groupName . self::ALCLI_YML_EXT)) {
-            $queries = self::array_merge_recursive_distinct($queries, Yaml::parse(file_get_contents(getcwd() . DIRECTORY_SEPARATOR . $groupName . self::ALCLI_YML_EXT)));
+        if(!$fileName) {
+            $fileName = (app()->environment()).'_alcli';
         }
 
-        if(file_exists(self::getHomeDirectory() . DIRECTORY_SEPARATOR . $groupName . self::ALCLI_YML_EXT)) {
-            $queries = self::array_merge_recursive_distinct($queries, Yaml::parse(file_get_contents( self::getHomeDirectory() . DIRECTORY_SEPARATOR . $groupName . self::ALCLI_YML_EXT)));
+        $config = [];
+        $found = FALSE;
+
+        if(file_exists(getcwd() . DIRECTORY_SEPARATOR . $fileName . self::ALCLI_YML_EXT)) {
+            $config = self::array_merge_recursive_distinct($config, Yaml::parse(file_get_contents(getcwd() . DIRECTORY_SEPARATOR . $fileName . self::ALCLI_YML_EXT)));
+            $found = TRUE;
+        }
+
+        if(file_exists(self::getHomeDirectory() . DIRECTORY_SEPARATOR . $fileName . self::ALCLI_YML_EXT)) {
+            $config = self::array_merge_recursive_distinct($config, Yaml::parse(file_get_contents( self::getHomeDirectory() . DIRECTORY_SEPARATOR . $fileName . self::ALCLI_YML_EXT)));
+            $found = TRUE;
         }
 
 
-        if(file_exists(base_path() . DIRECTORY_SEPARATOR . $groupName . self::ALCLI_YML_EXT)) {
-            $queries = self::array_merge_recursive_distinct($queries, Yaml::parse(file_get_contents(base_path() . DIRECTORY_SEPARATOR . $groupName . self::ALCLI_YML_EXT)));
+        if(file_exists(base_path() . DIRECTORY_SEPARATOR . $fileName . self::ALCLI_YML_EXT)) {
+            $config = self::array_merge_recursive_distinct($config, Yaml::parse(file_get_contents(base_path() . DIRECTORY_SEPARATOR . $fileName . self::ALCLI_YML_EXT)));
+            $found = TRUE;
         }
 
-        return $queries;
+        if(!$found && $fileName != 'alcli') {
+            return self::resolveConfigArray('alcli');
+        }
+
+        print_r($config); die($fileName);
+        return $config;
     }
 
     public static function getHomeDirectory()
