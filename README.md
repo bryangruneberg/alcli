@@ -25,7 +25,7 @@ The objective is that you can have different alcli.yml files for different proje
 The software is built on Laravel, and leans heavily on 
  - Laravel artisan: https://laravel.com/docs/master/artisan
  - Chobie's JIRA Rest Client: https://github.com/chobie/jira-api-restclient
- - Bomoko's work on the Amazee Labs Business Automation work built on Lumen: https://github.com/AmazeeLabs/business-automation
+ - Bomoko's (https://github.com/bomoko) and ALGM's work on the Amazee Labs Business Automation work built on Lumen: https://github.com/AmazeeLabs/business-automation
 
 ### alcli.yml
 
