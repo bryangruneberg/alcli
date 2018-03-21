@@ -3,3 +3,41 @@ queries:
     assignee in (currentUser())
   watched: 
     watcher in (currentUser())
+users:
+  bryan: bgruneberg
+  blaize: bkaye
+  fran: frangarcia
+  mostfa: Mustapha
+  mustapha: Mustapha
+  maita: mkambarami
+  inky: italbot
+  isa: iracine
+  isabel: iracine
+  stew: swest
+  jason: jlewis
+  tish: tamos
+  anli: adejager
+issues:
+  standup: ALGM-114
+  stand-up: ALGM-114
+  meeting: ALGM-5
+  meet: ALGM-5
+  plan: ALGM-5
+  admin: ALGM-3
+  coach: ALGM-2
+  mentor: ALGM-2
+  education: ALGM-4
+  devops: ALGM-6
+  context-switch: ALGM-239
+  switching: ALGM-239
+  interruption: ALGM-239
+  billing:  ALGM-236
+  timelogging:  ALGM-236
+  grooming: ALGM-235
+  sales: ALGM-152
+  am: ALGM-151
+  workshop: ALGM-132
+  retro: ALGM-116
+  estimate: ALGM-115
+  estimation: ALGM-115
+  marketing: ALGM-111
