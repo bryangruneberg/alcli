@@ -22,6 +22,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\JiraCommentIssueCommand',
         'App\Console\Commands\JiraCreateIssueCommand',
         'App\Console\Commands\JiraTransitionIssueCommand',
+        'App\Console\Commands\CurrencyConvertCommand',
     ];
 
     /**

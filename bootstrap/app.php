@@ -34,7 +34,7 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
-// $app->withFacades();
+$app->withFacades();
 
 // $app->withEloquent();
 
@@ -95,6 +95,7 @@ $app->singleton(
 
 // JIRA
 $app->register(App\Providers\JiraServiceProvider::class);
+$app->register(App\Providers\CurrencyServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
