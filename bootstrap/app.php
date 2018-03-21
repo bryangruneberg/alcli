@@ -3,9 +3,20 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 try {
-    (new Dotenv\Dotenv(__DIR__.'/../'))->load();
+    $dir = __DIR__.'/../';
+    $file = '.env.' . getenv('APP_ENV');
+    $tryfile = $dir . $file;
+
+    if(file_exists($tryfile)) 
+    {
+      (new Dotenv\Dotenv($dir, $file))->load();
+    } 
+    else 
+    {
+      (new Dotenv\Dotenv(__DIR__.'/../'))->load();
+    }
 } catch (Dotenv\Exception\InvalidPathException $e) {
-    //
+    print $e->getMessage();
 }
 
 /*
