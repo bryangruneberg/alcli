@@ -25,5 +25,19 @@ The objective is that you can have different alcli.yml files for different proje
 The software is built on Laravel, and leans heavily on 
  - Laravel artisan: https://laravel.com/docs/master/artisan
  - Chobie's JIRA Rest Client: https://github.com/chobie/jira-api-restclient
- 
+ - Bomoko's work on the Amazee Labs Business Automation work built on Lumen: https://github.com/AmazeeLabs/business-automation
+
+### alcli.yml
+
+Most of the heavy lifting for this functionality lives in app/Jira.php at the moment.
+
+#### Issues
+This section allows you to map a word to a jira issue key. For example, you could run `php artisan jira:lw standup --time=15m --comment="Meeting time"`. In this example the work "standup" is mapped to the issue key in the yml file.
+
+#### Users
+Similar to the way that issues work, this lets you forget about the jira username, and use friendly names. For example `s.j.haroldson` on Jira can become `susan` for your commands.
+
+#### Queries 
+Queries are a quick way to list groups of tickets. The structure is to map a name to a JQL stanza. Right now there is no variable replacement performed. It is just a simple lookup.
+
 
