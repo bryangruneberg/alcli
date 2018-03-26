@@ -24,6 +24,8 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\JiraTransitionIssueCommand',
         'App\Console\Commands\JiraGrabIssueCommand',
         'App\Console\Commands\JiraReleaseIssueCommand',
+        'App\Console\Commands\JiraLabelIssueCommand',
+        'App\Console\Commands\JiraUnlabelIssueCommand',
         'App\Console\Commands\CurrencyConvertCommand',
     ];
 

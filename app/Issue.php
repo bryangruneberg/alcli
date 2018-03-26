@@ -41,6 +41,17 @@ class Issue
         return FALSE;
     }
 
+    public function getLabels()
+    {
+        $data = array_change_key_case($this->jiraIssue->getFields(), CASE_LOWER);
+        if(isset($data['labels'])) 
+        {
+            return $data['labels'];
+        }
+
+        return [];
+    }
+
     public function all() 
     {
         $data = array_change_key_case(array_merge($this->jiraIssue->getFields(),['key' => $this->jiraIssue->getKey()]), CASE_LOWER);
