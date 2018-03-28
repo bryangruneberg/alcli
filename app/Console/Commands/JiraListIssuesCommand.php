@@ -26,33 +26,67 @@ class JiraListIssuesCommand extends JiraBaseCommand
             return;
         }
 
-        $headers = ['Key', 'Type', 'Status', 'Summary', 'Assignee', 'Labels'];
+        if($this->output->isVeryVerbose()) 
+        {
+            $headers = ['Key', 'Type', 'Status', 'Summary', 'Assignee', 'Priority', 'Due', 'Labels'];
+        } else if($this->output->isVerbose()) {
+            $headers = ['Key', 'Type', 'Status', 'Summary', 'Assignee', 'Due', 'Labels'];
+        } else {
+            $headers = ['Key', 'Summary', 'Assignee', 'Due', 'Labels'];
+        }
+
         $rows = [];
 
         foreach($issues as $issue) 
         {
-            $issueData = $issue->all()->only(['status', 'key','labels','issue type_name','assignee','summary'])->toArray();
+            $issueData = $issue->all()->only(['status', 'key','labels','issue type_name','assignee','summary','priority_name','due date'])->toArray();
 
-            $wrap = intval($this->consoleWidth() / 2);
-            $rows[] = [
-                $issueData['key'],
-                $issueData['issue type_name'],
-                $issueData['status'],
-                $this->wrap($issueData['summary'], $wrap),
-                $issueData['assignee'],
-                str_replace(",", "\n", $issueData['labels'])
-            ];
+
+            if($this->output->isVeryVerbose()) {
+                $wrap = intval($this->consoleWidth() / 5);
+                $rows[] = [
+                    $issueData['key'],
+                    $issueData['issue type_name'],
+                    $issueData['status'],
+                    $this->wrap($issueData['summary'], $wrap),
+                    $issueData['assignee'],
+                    $issueData['priority_name'] ?? "",
+                    $issueData['due date'] ?? "",
+                    str_replace(",", "\n", $issueData['labels'])
+                ];
+            } else if($this->output->isVerbose()) {
+                $wrap = intval($this->consoleWidth() / 4);
+                $rows[] = [
+                    $issueData['key'],
+                    $issueData['status'],
+                    $this->wrap($issueData['summary'], $wrap),
+                    $issueData['assignee'],
+                    $issueData['due date'] ?? "",
+                    str_replace(",", "\n", $issueData['labels'])
+                ];
+            } else {
+                $wrap = intval($this->consoleWidth() / 3);
+                $summary = $issueData['summary'];
+                $whos = explode(" ", $issueData['assignee']);
+                $rows[] = [
+                    $issueData['key'],
+                    $this->wrap($summary, $wrap),
+                    $whos[0] ?? "",
+                    $issueData['due date'] ?? "",
+                    str_replace(",", "\n", $issueData['labels'])
+                ];
+            }
         }
 
         switch($this->option('style')) 
         {
-            case 'csv':
-                $this->csv($headers, $rows);
-                break;
-            case 'table':
-                $this->table($headers, $rows);
-                break;
-            default:
+        case 'csv':
+            $this->csv($headers, $rows);
+            break;
+        case 'table':
+            $this->table($headers, $rows);
+            break;
+        default:
         }
     }
 }
