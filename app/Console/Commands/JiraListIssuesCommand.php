@@ -30,7 +30,7 @@ class JiraListIssuesCommand extends JiraBaseCommand
         {
             $headers = ['Key', 'Type', 'Status', 'Summary', 'Assignee', 'Priority', 'Due', 'Labels'];
         } else if($this->output->isVerbose()) {
-            $headers = ['Key', 'Type', 'Status', 'Summary', 'Assignee', 'Due', 'Labels'];
+            $headers = ['Key', 'Status', 'Summary', 'Assignee', 'Due', 'Labels'];
         } else {
             $headers = ['Key', 'Summary', 'Assignee', 'Due', 'Labels'];
         }
@@ -56,11 +56,12 @@ class JiraListIssuesCommand extends JiraBaseCommand
                 ];
             } else if($this->output->isVerbose()) {
                 $wrap = intval($this->consoleWidth() / 4);
+                $whos = explode(" ", $issueData['assignee']);
                 $rows[] = [
                     $issueData['key'],
                     $issueData['status'],
                     $this->wrap($issueData['summary'], $wrap),
-                    $issueData['assignee'],
+                    $whos[0] ?? "",
                     $issueData['due date'] ?? "",
                     str_replace(",", "\n", $issueData['labels'])
                 ];
