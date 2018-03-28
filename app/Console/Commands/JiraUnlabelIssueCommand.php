@@ -31,7 +31,7 @@ class JiraUnlabelIssueCommand extends JiraBaseCommand
 
         $this->info('Current labels: ' . implode(", ", $labels));
 
-        $labels = array_diff( $labels, [$removeLabel] );
+        $labels = array_values(array_diff( $labels, [$removeLabel] ));
 
         try 
         {
